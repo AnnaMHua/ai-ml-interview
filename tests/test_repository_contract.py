@@ -137,6 +137,43 @@ class RepositoryContractTests(unittest.TestCase):
             with self.subTest(notation=notation):
                 self.assertIn(notation, coding)
 
+    def test_fundamentals_preserves_complete_matrix_form_note(self) -> None:
+        fundamentals = self.read(
+            "docs/topics/deep-learning/backpropagation/fundamentals.md"
+        )
+        required_sections = [
+            "## Why We Need Backpropagation",
+            "## Machine-Learning and PyTorch Gradient Convention",
+            "## The Three Objects to Keep Separate",
+            "## Where Backpropagation Starts",
+            "## Why We Use Differentials",
+            "## Deriving the General Backpropagation Equations",
+            "## How the General Rule Relates to a Concrete Layer",
+            "## Example: A Linear Layer",
+            "## Coding-Interview Notation Conventions",
+            "## Summary",
+            "## Reference",
+        ]
+        for heading in required_sections:
+            with self.subTest(heading=heading):
+                self.assertIn(heading, fundamentals)
+
+        required_content = [
+            r"g_{l-1}=A_l^Tg_l",
+            r"\nabla_{\theta_l}\mathcal{L}=B_l^Tg_l",
+            r"\nabla_W\mathcal{L}=g_yx^T",
+            "dA = dC @ B.T",
+            "dB = A.T @ dC",
+            "dX = dY @ W",
+            "dW = dY.T @ X",
+            "db = dY.sum(axis=0)",
+            "already contained in the upstream gradient",
+            "https://visionbook.mit.edu/backpropagation.html",
+        ]
+        for fragment in required_content:
+            with self.subTest(fragment=fragment):
+                self.assertIn(fragment, fundamentals)
+
 
 if __name__ == "__main__":
     unittest.main()
