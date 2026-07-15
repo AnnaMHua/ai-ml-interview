@@ -45,10 +45,11 @@ class RepositoryContractTests(unittest.TestCase):
                 text = (topic / name).read_text(encoding="utf-8")
                 self.assertGreater(len(text.split()), 35, f"{name} is not substantive")
 
-    def test_mkdocs_enables_offline_search_and_math(self) -> None:
+    def test_mkdocs_enables_online_pages_search_and_math(self) -> None:
         config = self.read("mkdocs.yml")
         for required in [
-            "offline",
+            "site_url: https://annamhua.github.io/ai-ml-interview/",
+            "repo_url: https://github.com/AnnaMHua/ai-ml-interview",
             "search",
             "pymdownx.arithmatex",
             "pymdownx.highlight",
@@ -59,7 +60,11 @@ class RepositoryContractTests(unittest.TestCase):
         ]:
             with self.subTest(setting=required):
                 self.assertIn(required, config)
-        for forbidden in ["navigation.instant", "analytics:", "site_url:"]:
+        for forbidden in [
+            "offline",
+            "use_directory_urls: false",
+            "analytics:",
+        ]:
             with self.subTest(setting=forbidden):
                 self.assertNotIn(forbidden, config)
 
@@ -81,24 +86,33 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("design/**", config)
         self.assertIn("superpowers/**", config)
 
-    def test_workflow_is_read_only_and_uploads_non_pr_artifact(self) -> None:
+    def test_workflow_validates_and_deploys_github_pages(self) -> None:
         workflow = self.read(".github/workflows/build-site.yml")
         for required in [
             "pull_request:",
             "workflow_dispatch:",
             "branches: [main]",
             "contents: read",
+            "pages: write",
+            "id-token: write",
+            'group: "pages"',
             "mkdocs build --strict --clean",
             "test -f site/index.html",
             "github.event_name != 'pull_request'",
-            "uses: actions/upload-artifact@v7",
-            "name: ai-ml-interview-notes-site",
-            "retention-days: 30",
-            "if-no-files-found: error",
+            "uses: actions/configure-pages@v5",
+            "uses: actions/upload-pages-artifact@v5",
+            "uses: actions/deploy-pages@v5",
+            "name: github-pages",
+            "url: ${{ steps.deployment.outputs.page_url }}",
         ]:
             with self.subTest(fragment=required):
                 self.assertIn(required, workflow)
-        for forbidden in ["pages: write", "deployments: write", "actions/deploy-pages"]:
+        for forbidden in [
+            "actions/upload-artifact",
+            "ai-ml-interview-notes-site",
+            "retention-days:",
+            "deployments: write",
+        ]:
             with self.subTest(fragment=forbidden):
                 self.assertNotIn(forbidden, workflow)
 
@@ -111,6 +125,11 @@ class RepositoryContractTests(unittest.TestCase):
     def test_generated_site_is_ignored(self) -> None:
         ignore = self.read(".gitignore").splitlines()
         self.assertIn("site/", ignore)
+
+    def test_readme_points_to_public_site(self) -> None:
+        readme = self.read("README.md")
+        self.assertIn("https://annamhua.github.io/ai-ml-interview/", readme)
+        self.assertNotIn("download the `ai-ml-interview-notes-site` artifact", readme.lower())
 
     def test_interview_notation_is_preserved(self) -> None:
         coding = self.read("docs/topics/deep-learning/backpropagation/coding-questions.md")

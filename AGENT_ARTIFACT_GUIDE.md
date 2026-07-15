@@ -9,7 +9,7 @@ Produce polished knowledge artifacts that are:
 - technically correct;
 - easy to review;
 - compatible with MkDocs Material;
-- safe to include in a downloadable local build;
+- safe to publish on the public GitHub Pages site;
 - faithful to the user's preferred explanations and notation;
 - ready to place directly into the repository.
 
@@ -17,7 +17,7 @@ The website is only a reading and search interface. Do not add research workflow
 
 ## 2. Repository Context
 
-The repository is private. GitHub Actions builds the Markdown into a downloadable static site. The user extracts the generated artifact and opens `index.html` directly in a browser.
+The repository and generated GitHub Pages site are public. GitHub Actions validates the Markdown, builds the static site, and deploys it at `https://annamhua.github.io/ai-ml-interview/`.
 
 Knowledge agents normally edit only files under:
 
@@ -176,7 +176,7 @@ Cite inside other pages when attribution is important for:
 
 Do not treat forum reports as confirmed company policy.
 
-External reference links may require internet access when the downloaded site is opened. Do not copy external pages or binaries into the repository unless the user explicitly requests a local asset and has the right to store it.
+External references remain ordinary web links. Do not copy external pages or binaries into the repository unless the user explicitly requests a local asset and has the right to publish it.
 
 ## 12. Formula Requirements
 
@@ -315,7 +315,7 @@ Prefer text, SVG, or ordinary image files over embedded online widgets. Avoid if
 
 ## 18. Offline-Safe Content Rules
 
-The generated website is opened through `file://`, not through a web server.
+The generated website is hosted under the GitHub Pages project path `/ai-ml-interview/`.
 
 Therefore:
 
@@ -323,7 +323,7 @@ Therefore:
 - do not hard-code `http://localhost` URLs;
 - do not depend on API calls or the browser Fetch API;
 - do not add custom JavaScript to knowledge pages;
-- do not assume server-side routing;
+- use portable relative links and do not assume server-side application routing;
 - do not add analytics, comments, or embedded login-dependent tools;
 - keep external references as ordinary links.
 

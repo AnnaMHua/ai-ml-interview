@@ -1,352 +1,77 @@
 # AI/ML Interview Notes Website — Project Handoff
 
-**Date:** 2026-07-15  
-**Status:** Product and build design approved; ready for implementation planning  
-**Phase:** Phase 1 — private repository and downloadable local website  
+**Date:** 2026-07-15
+**Status:** Public GitHub Pages migration approved
+**Current phase:** Public site delivery
 **Pilot topic:** Backpropagation
 
-## 1. Project Goal
+## Goal
 
-Build a simple personal website for reviewing AI/ML interview knowledge.
+Maintain a public, read-only AI/ML interview knowledge site. Research and refinement happen elsewhere; polished Markdown is committed to the public repository and deployed automatically through GitHub Pages.
 
-The site is not a research assistant, workflow manager, or learning tracker. Research and note preparation happen externally with books, online sources, and agents. The repository receives polished knowledge artifacts and renders them as a clean documentation website.
+## Approved product boundary
 
-```text
-Research and discuss elsewhere
-    -> produce polished Markdown
-    -> commit to private GitHub repository
-    -> GitHub Actions builds the site
-    -> download the workflow artifact
-    -> extract and open index.html locally
-```
+The product organizes artifacts, renders them clearly, and provides navigation and full-site search. Do not add chat, research workflows, tasks, study plans, progress tracking, recommendations, analytics, databases, accounts, or a custom application.
 
-## 2. Approved Product Boundary
-
-The product does only three things:
-
-1. organize artifacts by subject and topic;
-2. render artifacts clearly;
-3. provide navigation and full-site search.
-
-Do not add:
-
-- embedded AI chat;
-- research workflows;
-- tasks or study plans;
-- progress, status, or priority tracking;
-- recommendations or analytics;
-- database or user accounts;
-- GitHub Pages publishing in Phase 1;
-- custom React or backend application.
-
-## 3. Canonical Content Rule
-
-Markdown is the only maintained knowledge format.
-
-Use Markdown for:
-
-- prose;
-- MathJax-compatible equations;
-- code blocks;
-- tables;
-- images;
-- links;
-- collapsible answers.
-
-Existing PDF and LaTeX notes are converted into Markdown. After the user verifies that the conversion is complete and correct, the original PDF and LaTeX copies are deleted.
-
-Supporting code, notebooks, and images may remain as separate files only when Markdown cannot replace them.
-
-## 4. Website Experience
-
-### Homepage
-
-The homepage displays all existing subjects and topics directly. It does not show progress, status, statistics, or planned topics.
-
-Example:
+## Delivery
 
 ```text
-Deep Learning
-- Backpropagation
-- Attention
-- CNNs
-- Transformers
-
-Classical Machine Learning
-- Linear Regression
-- Trees and Ensembles
-
-Math & Statistics
-- Linear Algebra
-- Probability
-- Matrix Calculus
-
-ML Systems
-- Distributed Training
-- Model Serving
-
-Coding
-- NumPy
-- PyTorch
-- Python
+Markdown on main
+    -> GitHub Actions tests
+    -> strict MkDocs build
+    -> GitHub Pages artifact
+    -> github-pages deployment
+    -> https://annamhua.github.io/ai-ml-interview/
 ```
 
-### Topic page
+Pull requests validate without deploying. Pushes to `main` and manual workflow runs deploy.
 
-Each topic landing page is a concise table of contents. It shows only artifacts that exist.
+## Content contract
 
-Example:
+Markdown is canonical. Every topic includes `index.md`, `fundamentals.md`, and `references.md`; optional pages exist only when useful. Agents preserve the user's notation and explanations, correct technical mistakes, verify formulas and code, use portable relative links, and follow `AGENT_ARTIFACT_GUIDE.md`.
 
-```text
-Backpropagation
-- Fundamentals
-- Derivations
-- Interview Questions
-- Coding Questions
-- Debugging
-- References
-```
+Because the repository is public, do not add secrets, confidential employer information, private interview material, personal identifiers, copied copyrighted works, or unlicensed assets.
 
-### Layout
+## Website experience
 
-Use the standard Material documentation layout:
+The homepage lists only existing subjects and topics. Topic pages link only to artifacts that exist. MkDocs Material provides the top bar, search, light/dark mode, left navigation, main Markdown content, and the current-page table of contents.
 
-```text
-Top bar: title, search, light/dark mode
-Left sidebar: subjects, topics, current topic artifacts
-Main area: Markdown content
-Right sidebar: current-page headings
-```
+## Backpropagation pilot
 
-## 5. Topic Artifact Structure
-
-Every topic requires only:
+The current pilot contains:
 
 ```text
 index.md
 fundamentals.md
-references.md
-```
-
-Optional pages are created only when they contain useful independent content:
-
-```text
 derivations.md
 interview-questions.md
 coding-questions.md
 debugging.md
-system-design.md
-case-studies.md
-experiments.md
+references.md
 ```
 
-Do not create empty pages.
+It validates equations, code, collapsible answers, search, project-path routing, and topic organization.
 
-## 6. Repository Structure
+## Repository-owner setup
 
-```text
-ai-ml-interview-notes/
-├── .github/
-│   └── workflows/
-│       └── build-site.yml
-├── docs/
-│   ├── index.md
-│   ├── stylesheets/
-│   │   └── extra.css
-│   ├── javascripts/
-│   │   └── mathjax.js
-│   └── topics/
-│       ├── deep-learning/
-│       │   ├── index.md
-│       │   └── backpropagation/
-│       │       ├── index.md
-│       │       ├── fundamentals.md
-│       │       ├── references.md
-│       │       ├── derivations.md
-│       │       ├── interview-questions.md
-│       │       ├── coding-questions.md
-│       │       ├── debugging.md
-│       │       └── assets/
-│       ├── classical-ml/
-│       ├── math-statistics/
-│       ├── ml-systems/
-│       └── coding/
-├── mkdocs.yml
-├── requirements.txt
-├── README.md
-├── AGENT_ARTIFACT_GUIDE.md
-└── .gitignore
-```
+After the migration commit is pushed:
 
-`site/` is generated output and must not be committed.
+1. change repository visibility to **Public**;
+2. open **Settings → Pages**;
+3. set **Build and deployment → Source** to **GitHub Actions**;
+4. open **Actions** and run **Build and deploy interview notes** if the visibility change did not automatically trigger a run;
+5. verify the live URL shown by the deployment.
 
-## 7. Technology Decisions
+## Acceptance criteria
 
-Use MkDocs Material.
+1. The repository is public.
+2. Source tests, strict build, and output tests pass.
+3. GitHub Pages deploys from `main` through Actions.
+4. The public URL loads without authentication.
+5. Navigation, search, equations, code, and collapsible answers work online.
+6. `site/` is not committed.
+7. Future topics can be added without redesign.
 
-Required capabilities:
+## Current limitation
 
-- Material theme;
-- full-site search;
-- built-in offline plugin;
-- MathJax-compatible equations;
-- syntax highlighting;
-- admonitions and collapsible answers;
-- light and dark mode;
-- standard navigation.
-
-The Material offline plugin is required because the user downloads the generated site and opens `index.html` directly through `file://`. It packages search for local-file use and generates explicit `.html` links.
-
-Do not enable instant navigation, analytics, versioning, or comments.
-
-Phase 1 is local-file capable, not necessarily air-gapped. External references and the initial MathJax runtime may require internet access.
-
-## 8. GitHub Actions Design
-
-The private repository contains one workflow:
-
-```text
-.github/workflows/build-site.yml
-```
-
-Triggers:
-
-```text
-pull requests
-pushes to main
-manual workflow runs
-```
-
-All runs:
-
-```text
-checkout
--> set up Python
--> install requirements.txt
--> mkdocs build --strict --clean
--> verify site/index.html
-```
-
-Successful pushes to `main` and manual runs also upload:
-
-```text
-artifact name: ai-ml-interview-notes-site
-contents: complete site/ directory
-retention: 30 days
-```
-
-Pull requests validate the build but do not need to upload a reading artifact.
-
-Workflow permissions:
-
-```yaml
-permissions:
-  contents: read
-```
-
-Do not add Pages, deployment, or repository write permissions.
-
-## 9. User Reading Flow
-
-```text
-Open latest successful main/manual workflow run
--> download ai-ml-interview-notes-site
--> extract the ZIP
--> keep the full directory together
--> double-click index.html
-```
-
-No local Python environment or web server is required for reading.
-
-## 10. Agent Content Contract
-
-Agents may create a full topic or update one artifact.
-
-They must:
-
-- deliver complete Markdown files;
-- preserve the user's preferred explanations and notation;
-- correct technical errors directly;
-- verify formulas and code before delivery;
-- choose verification methods appropriate to the problem;
-- record meaningful external sources in `references.md`;
-- use portable relative links and assets;
-- avoid server-dependent embeds and custom scripts;
-- avoid creating optional pages without user approval;
-- avoid editing site-level configuration unless explicitly asked.
-
-For updates, the user chooses:
-
-- local edit;
-- structural edit;
-- complete rewrite.
-
-See `AGENT_ARTIFACT_GUIDE.md` for the full contract.
-
-## 11. Backpropagation Pilot
-
-The first complete topic is:
-
-```text
-backpropagation/
-├── index.md
-├── fundamentals.md
-├── references.md
-├── derivations.md
-├── interview-questions.md
-├── coding-questions.md
-├── debugging.md
-└── assets/
-```
-
-It should prove:
-
-- navigation and topic organization;
-- Markdown migration from existing notes;
-- equations;
-- code blocks;
-- collapsible answers;
-- search;
-- direct local-file opening;
-- GitHub Actions build and artifact download.
-
-## 12. MVP Acceptance Criteria
-
-1. The repository is private.
-2. MkDocs Material builds with pinned dependencies.
-3. GitHub Actions runs on pull requests, `main`, and manual trigger.
-4. `mkdocs build --strict --clean` succeeds.
-5. A successful `main` or manual run uploads `ai-ml-interview-notes-site`.
-6. The artifact can be extracted and opened by double-clicking `index.html`.
-7. Internal navigation and search work through `file://`.
-8. No GitHub Pages deployment exists.
-9. Markdown is the only maintained note format.
-10. Existing Backpropagation material is migrated and verified.
-11. A second topic can be added without redesign.
-
-## 13. Approved Design Documents
-
-Implementation should follow these documents:
-
-```text
-2026-07-15-ai-ml-interview-notes-product-design.md
-2026-07-15-repository-and-github-actions-design.md
-AGENT_ARTIFACT_GUIDE.md
-```
-
-If a future decision conflicts with this handoff, update all four documents together.
-
-## 14. Next Step
-
-The next agent should create an implementation plan before writing repository files.
-
-The implementation plan should cover:
-
-1. repository scaffolding;
-2. MkDocs and offline configuration;
-3. GitHub Actions workflow;
-4. minimal homepage and subject navigation;
-5. Backpropagation skeleton and content migration;
-6. strict build validation;
-7. downloaded artifact browser smoke test;
-8. documentation for adding future topics.
+The original Backpropagation PDF/LaTeX source was not attached during implementation. The existing pilot is substantive starter Markdown based on the user's documented notation and interview style, not a claimed exact migration of unattached source files.

@@ -1,16 +1,12 @@
 # AI/ML Interview Notes
 
-Private, read-only AI/ML interview knowledge rendered from Markdown with MkDocs Material. GitHub Actions validates the source and packages a downloadable website; GitHub Pages is intentionally not used.
+Public, read-only AI/ML interview knowledge rendered from Markdown with MkDocs Material and deployed through GitHub Pages.
 
-## Read the generated site
+## Read the site
 
-1. Open the repository's **Actions** tab.
-2. Open the latest successful **Build interview notes site** run on `main`.
-3. Download the `ai-ml-interview-notes-site` artifact.
-4. Extract the ZIP and keep the entire extracted directory together.
-5. Double-click the extracted `index.html`.
+Open **https://annamhua.github.io/ai-ml-interview/**.
 
-No Python environment or local server is required for reading. Internal navigation and search are built for `file://` use. MathJax is initially loaded from a pinned CDN, so equations require internet access until the runtime is bundled in a future change.
+No download, Python environment, or local server is required for reading. GitHub Actions rebuilds and redeploys the site after each successful push to `main`.
 
 ## Add or update a topic
 
@@ -47,10 +43,10 @@ python -m unittest tests.test_site_output -v
 
 The generated `site/` directory is ignored by Git and must not be committed.
 
-## Trigger a manual artifact build
+## Trigger a manual deployment
 
-In **Actions**, select **Build interview notes site**, choose **Run workflow**, and run it from `main`. Pull requests run the same validation but do not upload a reading artifact. Pushes to `main` and manual runs retain the artifact for 30 days.
+In **Actions**, select **Build and deploy interview notes**, choose **Run workflow**, and run it from `main`. Pull requests run build validation without deploying. Pushes to `main` and manual runs publish through the protected `github-pages` environment.
 
 ## Repository boundaries
 
-This repository organizes, searches, and renders polished notes. It does not contain an AI chat, study tracker, database, analytics, or deployment configuration. Markdown is the only maintained knowledge format.
+This public repository organizes, searches, and renders polished notes. It does not contain an AI chat, study tracker, database, or analytics. Markdown is the only maintained knowledge format.

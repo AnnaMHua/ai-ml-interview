@@ -1,7 +1,9 @@
 site_name: AI/ML Interview Notes
 site_description: Personal AI and machine learning interview knowledge base
+site_url: https://annamhua.github.io/ai-ml-interview/
+repo_url: https://github.com/AnnaMHua/ai-ml-interview
+repo_name: AnnaMHua/ai-ml-interview
 docs_dir: docs
-use_directory_urls: false
 exclude_docs: |
   design/**
   superpowers/**
@@ -34,7 +36,6 @@ theme:
 
 plugins:
   - search
-  - offline
 
 markdown_extensions:
   - admonition

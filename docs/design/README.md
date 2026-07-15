@@ -1,6 +1,6 @@
 # Approved design records
 
-The documents in this directory are the approved product and build inputs for the initial implementation. The latest direct user instruction changes only the repository name from the earlier example `ai-ml-interview-notes` to `ai-ml-interview`; the private artifact-delivery architecture and product boundaries remain unchanged.
+These documents describe the current approved public GitHub Pages product. On 2026-07-15, the user replaced the original private/offline artifact design with a public repository and an official GitHub Pages Actions deployment at `https://annamhua.github.io/ai-ml-interview/`.
 
 - `2026-07-15-product-design.md` — product scope, information architecture, content model, and acceptance criteria.
 - `2026-07-15-repository-and-github-actions-design.md` — MkDocs configuration, workflow behavior, privacy, and testing strategy.
