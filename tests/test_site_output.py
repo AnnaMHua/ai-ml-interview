@@ -73,6 +73,19 @@ class SiteOutputTests(unittest.TestCase):
         self.assertIn("highlight", pages)
         self.assertIn("<details", pages)
 
+    def test_fundamentals_renders_display_math(self) -> None:
+        fundamentals = (
+            SITE
+            / "topics/deep-learning/backpropagation/fundamentals/index.html"
+        ).read_text(encoding="utf-8")
+        self.assertNotIn("$$", fundamentals)
+        self.assertIn(
+            '<div class="arithmatex">\\[\n'
+            r"\boxed{\nabla_z\mathcal{L}\text{ has the same shape as }z.}",
+            fundamentals,
+        )
+        self.assertEqual(fundamentals.count('<div class="arithmatex">'), 82)
+
 
 if __name__ == "__main__":
     unittest.main()
