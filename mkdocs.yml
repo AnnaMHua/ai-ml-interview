@@ -1,0 +1,72 @@
+site_name: AI/ML Interview Notes
+site_description: Personal AI and machine learning interview knowledge base
+docs_dir: docs
+use_directory_urls: false
+exclude_docs: |
+  design/**
+  superpowers/**
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+    - search.suggest
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: light-blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - offline
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
+
+nav:
+  - Home: index.md
+  - Deep Learning:
+      - Overview: topics/deep-learning/index.md
+      - Backpropagation:
+          - Overview: topics/deep-learning/backpropagation/index.md
+          - Fundamentals: topics/deep-learning/backpropagation/fundamentals.md
+          - Derivations: topics/deep-learning/backpropagation/derivations.md
+          - Interview Questions: topics/deep-learning/backpropagation/interview-questions.md
+          - Coding Questions: topics/deep-learning/backpropagation/coding-questions.md
+          - Debugging: topics/deep-learning/backpropagation/debugging.md
+          - References: topics/deep-learning/backpropagation/references.md

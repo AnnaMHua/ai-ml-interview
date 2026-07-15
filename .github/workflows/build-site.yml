@@ -1,0 +1,46 @@
+name: Build interview notes site
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run repository tests
+        run: python -m unittest tests.test_repository_contract -v
+
+      - name: Build site
+        run: mkdocs build --strict --clean
+
+      - name: Verify generated site
+        run: |
+          test -f site/index.html
+          python -m unittest tests.test_site_output -v
+
+      - name: Upload readable site
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: ai-ml-interview-notes-site
+          path: site/
+          retention-days: 30
+          if-no-files-found: error
